@@ -24,7 +24,7 @@ const Transaction = (props: Props) => {
       <span className="flex flex-col w-full">
         <span className="flex flex-row text-sm justify-between w-full">
           <span>{name}</span>
-          <span>- €{amount}</span>
+          <span>- ₺{amount}</span>
         </span>
         <span className="text-xs text-neutral-500">{description} - {date}</span>
       </span>

@@ -33,7 +33,7 @@ const Transactions = () => {
 
       <Link
         href="/transactions"
-        className="text-base text-blue-500/80 w-full flex justify-center items-center mt-3 mb-0"
+        className="text-base text-lcoin w-full flex justify-center items-center mt-3 mb-0"
       >
         See all
       </Link>

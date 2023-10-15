@@ -21,10 +21,15 @@ const TransactionSearchResults = (props: Props) => {
     const { search } = props;
     
     const { isLoading, isError, data, error } = useQuery({
+        //@ts-expect-error - I don't know how to fix this
         queryKey: ["searchResults", search],
         queryFn: fetchSearchResults,
         enabled: search.length > 3,
     });
+
+    console.log(data, isLoading, isError, error);
+
+
 
     return (
         <motion.div className="w-full bg-neutral-900 px-2 py-1 rounded mt-1.5 mr-3 absolute z-50">

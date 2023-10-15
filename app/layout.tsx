@@ -5,6 +5,7 @@ import Providers from "@/components/providers";
 import { Inter } from "next/font/google";
 import React from "react";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,6 +28,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Toaster />
             {children}
           </ThemeProvider>
           <ReactQueryDevtools initialIsOpen={false} />
@@ -35,3 +37,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export const dynamic = "force-dynamic"

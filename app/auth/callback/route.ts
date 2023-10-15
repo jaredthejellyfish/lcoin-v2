@@ -12,5 +12,7 @@ export async function GET(req: NextRequest) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  return NextResponse.redirect(new URL('/account', req.url));
+  return NextResponse.redirect(new URL('/', req.url));
 }
+
+export const dynamic = 'force-dynamic';

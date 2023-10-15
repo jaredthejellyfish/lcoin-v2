@@ -1,4 +1,5 @@
 'use client'
+
 import React from 'react'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
@@ -15,8 +16,8 @@ export default function AuthForm() {
             appearance={{ theme: ThemeSupa }}
             theme="dark"
             showLinks={false}
-            providers={[]}
-            redirectTo="http://localhost:3000/auth/callback"
+            providers={["google", "github", ]}
+            redirectTo='https://lcoin-iota.vercel.app/auth/callback'
         />
     )
 }
