@@ -32,7 +32,7 @@ const Navigation = async () => {
     >
       <Link href={'/profile'} className="flex flex-row items-center space-x-2">
         <Avatar className="h-8 w-8 m-1">
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage src={userProfile?.avatar_url || undefined} />
           <AvatarFallback>{session && !error && userProfile && userProfile.full_name ? getInitials(userProfile?.full_name) : "N/A"}</AvatarFallback>
         </Avatar>
         <h3 className="font-semibold">

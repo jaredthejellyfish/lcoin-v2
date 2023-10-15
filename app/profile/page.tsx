@@ -1,14 +1,14 @@
+import { ArrowRightIcon, HelpCircle, LogOut, QrCode, User } from 'lucide-react';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { ArrowRightIcon, HelpCircle, LogOut, User } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import TextWithCopy from './value-with-copy';
+import Notifier from '@/components/notifier';
+import TextWithCopy from '@/components/text-with-copy';
 import { Database } from '@/lib/database';
 import { getInitials } from '@/lib/utils';
-import Notifier from '@/components/notifier';
 
 type Props = { searchParams: { error?: string; update?: string } };
 
@@ -49,7 +49,7 @@ export default async function Account(props: Props) {
         {userProfile.full_name}
       </h1>
       <Avatar className="absolute w-12 h-12 m-1 right-5 top-10">
-        <AvatarImage src="https://github.com/shadcn.png" />
+        <AvatarImage src={userProfile?.avatar_url || undefined} />
         <AvatarFallback>
           {session && userProfile && userProfile.full_name
             ? getInitials(userProfile?.full_name)
@@ -73,7 +73,7 @@ export default async function Account(props: Props) {
           <span className="py-2.5 px-3 dark:text-neutral-400 text-neutral-700 w-1/3">
             IBAN
           </span>
-          <TextWithCopy text="LT883250078295063043" />
+          <TextWithCopy text={userProfile.iban} />
         </div>
         <div className="flex flex-row">
           <span className="py-2.5 px-3 dark:text-neutral-400 text-neutral-700 w-1/3">
@@ -90,6 +90,15 @@ export default async function Account(props: Props) {
           <User className="w-6 h-6 mr-3 text-lcoin" />
           <span className="dark:text-neutral-100 text-neutral-700">
             Edit Profile
+          </span>
+        </Link>
+        <Link
+          href="/profile/code"
+          className="flex flex-row items-center px-2 py-2 text-sm"
+        >
+          <QrCode className="ml-0.5 w-5 h-5 mr-3.5 text-lcoin" />
+          <span className="dark:text-neutral-100 text-neutral-700">
+             Payment Code
           </span>
         </Link>
       </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import '@wypratama/react-qr/dist/style.css';
 import { useEffect } from 'react';
 
 import { useToast } from '@/components/ui/use-toast';
@@ -18,7 +19,9 @@ const Notifier = (props: Props) => {
       toast({
         variant: 'destructive',
         title: 'Error!',
-        description: error.replace("+", " ") || 'Something went wrong. Please try again later.',
+        description:
+          error.replace('+', ' ') ||
+          'Something went wrong. Please try again later.',
       });
     }
 
