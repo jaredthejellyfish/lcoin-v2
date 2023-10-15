@@ -42,7 +42,7 @@ const PaymentCode = async () => {
         <span className="sr-only">Return</span>
       </Link>
       <h1 className="text-3xl font-bold max-w-[80%]">Payment Code</h1>
-      <p className='mt-3 text-sm text-neutral-400'>This QR code represents your personal payment code (IBAN), allowing you to receive payments from other users.</p>
+      <p className='mt-3 text-sm text-neutral-600 font-medium dark:text-neutral-400'>This QR code represents your personal payment code (IBAN), allowing you to receive payments from other users.</p>
       <div className='flex items-center justify-center mt-5 mb-9 '>
         <QRCode className="dark:border-transparent border border-neutral-300 shadow-sm rounded invert-colors p-2 bg-white" value={userProfile.iban} />
       </div>
