@@ -11,7 +11,13 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'LCoin',
   description: 'Created by Jared Hernandez.',
+  themeColor: 'black',
+  appleWebApp: {
+    title: 'LCoin',
+    statusBarStyle: 'black-translucent',
+  },
 };
+
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({

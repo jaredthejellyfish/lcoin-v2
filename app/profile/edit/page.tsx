@@ -11,6 +11,12 @@ import Notifier from '@/components/notifier';
 import { updateUser } from '@/lib/actions';
 import type { Database } from '@/lib/database';
 import { getInitials } from '@/lib/utils';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'LCoin - Edit profile',
+  description: 'Created by Jared Hernandez.',
+};
 
 type Props = { searchParams: { error?: string; update?: string } };
 

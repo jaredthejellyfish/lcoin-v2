@@ -9,6 +9,12 @@ import TextWithCopy from '@/components/text-with-copy';
 import BackButton from '@/components/back-button';
 import type { Database } from '@/lib/database';
 import QRGenerator from './qr-generator';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'LCoin - Payment Code',
+  description: 'Created by Jared Hernandez.',
+};
 
 const PaymentCode = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });

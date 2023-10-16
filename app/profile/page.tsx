@@ -5,21 +5,39 @@ import Link from 'next/link';
 import React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Notifier from '@/components/notifier';
 import TextWithCopy from '@/components/text-with-copy';
 import type { Database } from '@/lib/database';
+import Notifier from '@/components/notifier';
 import { getInitials } from '@/lib/utils';
-import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'LCoin',
-  description: 'Created by Jared Hernandez.',
-};
+// or Dynamic metadata
+export async function generateMetadata() {
+  const supabase = createServerComponentClient<Database>({ cookies });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const { data: userProfile, error } = session
+    ? await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session!.user?.id)
+        .single()
+    : { data: null, error: true };
+
+  const titleWithUser =
+    userProfile && !error ? `LCoin - @${userProfile.username}` : 'LCoin';
+
+  return {
+    title: titleWithUser,
+  };
+}
 
 type Props = { searchParams: { error?: string; update?: string } };
 
 export default async function Account(props: Props) {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies }); 
 
   const {
     data: { session },
@@ -104,7 +122,7 @@ export default async function Account(props: Props) {
         >
           <QrCode className="ml-0.5 w-5 h-5 mr-3.5 text-lcoin" />
           <span className="dark:text-neutral-100 text-neutral-700">
-             Payment Code
+            Payment Code
           </span>
         </Link>
       </div>
