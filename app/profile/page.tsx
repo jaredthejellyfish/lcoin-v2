@@ -104,7 +104,7 @@ export default async function Account(props: Props) {
       </div>
       <div className="flex flex-col gap-0 mt-2 mb-4 border shadow-sm dark:bg-neutral-500/10 border-neutral-200 dark:border-transparent rounded-xl">
         <form
-          action="/auth/signout"
+          action="/api/auth/signout"
           method="post"
           className="flex flex-row items-center px-3 py-2 text-sm"
         >
