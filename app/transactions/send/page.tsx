@@ -2,6 +2,7 @@ import { ArrowRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
+import ClearSearchParams from '@/components/clear-search-params';
 import { SubmitButton } from '@/components/submit-button';
 import { createTransaction } from '@/lib/actions';
 
@@ -33,7 +34,7 @@ const SendPage = (props: Props) => {
             className="bg-transparent outline-none"
             type="text"
             name="iban"
-            value={props.searchParams.iban || undefined}
+            defaultValue={props.searchParams.iban || undefined}
           />
         </div>
         <div className="flex flex-row items-center dark:bg-neutral-600/20 dark:border-transparent border border-neutral-300 mb-3 pb-2 px-3 py-2.5 rounded-xl">
@@ -43,7 +44,7 @@ const SendPage = (props: Props) => {
             type="text"
             name="username"
             maxLength={19}
-            value={props.searchParams.username || undefined}
+            defaultValue={props.searchParams.username || undefined}
             pattern="[A-Za-z0-9\-]{1,}"
             title="Only letters and numbers allowed."
             placeholder="username"
@@ -65,11 +66,12 @@ const SendPage = (props: Props) => {
             className="bg-transparent outline-none"
             type="number"
             name="amount"
-            value={props.searchParams.amount || undefined}
+            defaultValue={props.searchParams.amount || undefined}
           />
         </div>
         <SubmitButton />
       </form>
+      <ClearSearchParams searchParams={props.searchParams}/>
     </main>
   );
 };

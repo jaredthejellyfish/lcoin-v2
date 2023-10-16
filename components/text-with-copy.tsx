@@ -14,7 +14,6 @@ const TextWithCopy = (props: Props) => {
 
   const onCopy = () => {
     navigator.clipboard.writeText(props.text || '');
-    console.log('Copied: ' + props.text);
     toast({
       description: 'Copied to clipboard!',
     });

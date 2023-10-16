@@ -23,8 +23,8 @@ const QRGenerator = (props: Props) => {
       <div className="flex items-center justify-center mt-5 mb-9 ">
         <QRCode
           className="dark:border-transparent border border-neutral-300 shadow-sm rounded invert-colors p-2 bg-white"
-          value={`${url}/transactions/send?iban=${iban}?username=${username}${
-            amount !== '' ? `?amount=${amount}` : ''
+          value={`${url}/transactions/send?iban=${iban}&username=${username}${
+            amount !== '' ? `&amount=${amount}` : ''
           }`}
         />
       </div>

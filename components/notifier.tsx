@@ -1,6 +1,7 @@
 'use client';
 
 import '@wypratama/react-qr/dist/style.css';
+import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 
 import { useToast } from '@/components/ui/use-toast';
@@ -39,4 +40,4 @@ const Notifier = (props: Props) => {
   return null;
 };
 
-export default Notifier;
+export default dynamic(() => Promise.resolve(Notifier), { ssr: false });

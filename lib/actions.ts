@@ -108,8 +108,6 @@ export async function createTransaction(formData: FormData) {
   const concept = (formData.get('concept') as string) || null;
   const amount = (formData.get('amount') as string) || null;
 
-  console.log(receiver, concept, amount);
-
   // Input validation
   if (
     !receiver ||
