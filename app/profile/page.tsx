@@ -7,8 +7,14 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Notifier from '@/components/notifier';
 import TextWithCopy from '@/components/text-with-copy';
-import { Database } from '@/lib/database';
+import type { Database } from '@/lib/database';
 import { getInitials } from '@/lib/utils';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'LCoin',
+  description: 'Created by Jared Hernandez.',
+};
 
 type Props = { searchParams: { error?: string; update?: string } };
 

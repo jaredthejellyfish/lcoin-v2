@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import QRCode from 'react-qr-code';
 
-import { UserProfile } from '@/lib/databaseTypes';
+import type { UserProfile } from '@/lib/databaseTypes';
 
 type Props = { userProfile: UserProfile; host: string };
 

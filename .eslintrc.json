@@ -17,6 +17,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "react/jsx-uses-vars": "off"
+    "react/jsx-uses-vars": "off",
+    "@typescript-eslint/consistent-type-imports": "error"
   }
 }

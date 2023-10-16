@@ -2,14 +2,14 @@
 
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { PostgrestError } from '@supabase/supabase-js';
+import type { PostgrestError } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
-import { UserProfile } from '@/lib/databaseTypes';
+import type { UserProfile } from '@/lib/databaseTypes';
 import { UserSchema } from '@/lib/schemas';
-import { Database } from '@/lib/database';
+import type { Database } from '@/lib/database';
 
 function isEqual<T extends { [key: string]: unknown }>(
   obj1: T,

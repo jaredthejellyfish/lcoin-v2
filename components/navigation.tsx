@@ -7,7 +7,7 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import ModeToggle from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
-import { Database } from '@/lib/database';
+import type { Database } from '@/lib/database';
 import { getInitials } from '@/lib/utils';
 
 const Navigation = async () => {

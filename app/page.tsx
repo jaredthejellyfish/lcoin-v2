@@ -7,7 +7,7 @@ import TransactionSearch from '@/components/transaction-search';
 import Transactions from '@/components/transactions';
 import Navigation from '@/components/navigation';
 import AnimatedTabs from '@/components/tabs';
-import { Database } from '@/lib/database';
+import type { Database } from '@/lib/database';
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });

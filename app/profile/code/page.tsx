@@ -1,18 +1,19 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { ArrowRightIcon } from 'lucide-react';
 import { cookies } from 'next/headers';
+import { headers } from 'next/headers';
 import Link from 'next/link';
 import React from 'react';
-import { headers } from 'next/headers';
 
 import TextWithCopy from '@/components/text-with-copy';
-import { Database } from '@/lib/database';
+import BackButton from '@/components/back-button';
+import type { Database } from '@/lib/database';
 import QRGenerator from './qr-generator';
 
 const PaymentCode = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });
-  const headersList = headers()
-  const host = headersList.get('x-forwarded-host') || headersList.get('host')
+  const headersList = headers();
+  const host = headersList.get('x-forwarded-host') || headersList.get('host');
 
   const {
     data: { session },
@@ -40,16 +41,13 @@ const PaymentCode = async () => {
 
   return (
     <div className="px-3 py-4">
-      <Link href="/profile">
-        <ArrowRightIcon className="mb-2 rotate-180" />
-        <span className="sr-only">Return</span>
-      </Link>
-      <h1 className="text-3xl font-bold max-w-[80%]">Payment Code</h1>
-      <p className="mt-3 text-sm text-neutral-600 font-medium dark:text-neutral-400">
+      <BackButton backPath="/profile" title="Payment Code" />
+
+      <p className="mt-1 text-sm text-neutral-600 font-medium dark:text-neutral-400">
         This QR code represents your personal payment code (IBAN), allowing you
         to receive payments from other users.
       </p>
-      <QRGenerator userProfile={userProfile} host={host || ""} />
+      <QRGenerator userProfile={userProfile} host={host || ''} />
 
       <div className="mt-3 flex flex-col gap-0 mb-4 text-sm border shadow-sm dark:bg-neutral-500/10 border-neutral-200 dark:border-transparent rounded-xl">
         <div className="flex flex-row">
