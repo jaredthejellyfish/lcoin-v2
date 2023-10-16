@@ -1,15 +1,18 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { ArrowRightIcon } from 'lucide-react';
 import { cookies } from 'next/headers';
-import QRCode from 'react-qr-code';
 import Link from 'next/link';
 import React from 'react';
+import { headers } from 'next/headers';
 
-import { Database } from '@/lib/database';
 import TextWithCopy from '@/components/text-with-copy';
+import { Database } from '@/lib/database';
+import QRGenerator from './qr-generator';
 
 const PaymentCode = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });
+  const headersList = headers()
+  const host = headersList.get('x-forwarded-host') || headersList.get('host')
 
   const {
     data: { session },
@@ -42,10 +45,12 @@ const PaymentCode = async () => {
         <span className="sr-only">Return</span>
       </Link>
       <h1 className="text-3xl font-bold max-w-[80%]">Payment Code</h1>
-      <p className='mt-3 text-sm text-neutral-600 font-medium dark:text-neutral-400'>This QR code represents your personal payment code (IBAN), allowing you to receive payments from other users.</p>
-      <div className='flex items-center justify-center mt-5 mb-9 '>
-        <QRCode className="dark:border-transparent border border-neutral-300 shadow-sm rounded invert-colors p-2 bg-white" value={userProfile.iban} />
-      </div>
+      <p className="mt-3 text-sm text-neutral-600 font-medium dark:text-neutral-400">
+        This QR code represents your personal payment code (IBAN), allowing you
+        to receive payments from other users.
+      </p>
+      <QRGenerator userProfile={userProfile} host={host || ""} />
+
       <div className="flex flex-col gap-0 mb-4 text-sm border shadow-sm dark:bg-neutral-500/10 border-neutral-200 dark:border-transparent rounded-xl">
         <div className="flex flex-row">
           <span className="py-2.5 px-3 dark:text-neutral-400 text-neutral-700 w-1/3">
@@ -78,4 +83,4 @@ const PaymentCode = async () => {
 
 export default PaymentCode;
 
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic';

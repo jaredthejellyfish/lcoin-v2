@@ -1,12 +1,15 @@
 'use server';
 
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { PostgrestError } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
-import { Database } from '@/lib/database';
+import { UserProfile } from '@/lib/databaseTypes';
 import { UserSchema } from '@/lib/schemas';
+import { Database } from '@/lib/database';
 
 function isEqual<T extends { [key: string]: unknown }>(
   obj1: T,
@@ -47,7 +50,7 @@ export async function updateUser(formData: FormData) {
         .single()
     : { data: null, error: true };
 
-  if (error) redirect("/profile/edit?error=Unauthorized");
+  if (error) redirect('/profile/edit?error=Unauthorized');
 
   const fullNameForm = formData.get('fullName');
   const fullName =
@@ -98,4 +101,98 @@ export async function updateUser(formData: FormData) {
   revalidatePath('/');
 
   redirect('/profile?update=true');
+}
+
+export async function createTransaction(formData: FormData) {
+  const receiver = (formData.get('iban') as string) || null;
+  const concept = (formData.get('concept') as string) || null;
+  const amount = (formData.get('amount') as string) || null;
+
+  console.log(receiver, concept, amount);
+
+  // Input validation
+  if (
+    !receiver ||
+    typeof receiver !== 'string' ||
+    !concept ||
+    typeof concept !== 'string' ||
+    !amount
+  ) {
+    redirect('/transactions/send?error=Invalid input');
+  }
+
+  const validatedAmount = Math.abs(parseFloat(amount));
+
+  if (validatedAmount <= 0) {
+    redirect('/transactions/send?error=Invalid amount');
+  }
+
+  const cookieStore = cookies();
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+
+  // get the sender user profile
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  // Authentication check
+  if (!session) redirect('/transactions/send?error=No session');
+
+  const { data: senderUserProfile, error: senderUserProfileError } =
+    (await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', session.user.id)
+      .single()) as { data: UserProfile; error: PostgrestError | null };
+
+  if (senderUserProfileError || !senderUserProfile) {
+    console.error(senderUserProfileError);
+    redirect('/transactions/send?error=Error fetching sender profile');
+  }
+
+  if (senderUserProfile.balance < validatedAmount) {
+    console.error('Not enough balance');
+    redirect('/transactions/send?error=Not enough balance');
+  }
+
+  // get the receiver user profile
+  const { data: receiverUserProfile, error: receiverUserProfileError } =
+    (await supabase
+      .from('profiles')
+      .select('*')
+      .eq('iban', receiver)
+      .single()) as { data: UserProfile; error: PostgrestError | null };
+
+  if (receiverUserProfileError || !receiverUserProfile) {
+    console.error(receiverUserProfileError);
+    redirect('/transactions/send?error=Error fetching receiver profile');
+  }
+
+  if (senderUserProfile.id === receiverUserProfile.id) {
+    console.error('Sender and receiver cannot be the same');
+    redirect('/transactions/send?error=Sender and receiver cannot be the same');
+  }
+
+  // create the transaction
+  const { error: transactionError } = await supabase
+    .from('transactions')
+    .insert([
+      {
+        sender_id: senderUserProfile.id,
+        receiver_id: receiverUserProfile.id,
+        concept,
+        amount: validatedAmount,
+      },
+    ]);
+
+  console.error(transactionError);
+
+  if (transactionError) {
+    console.error(transactionError);
+    redirect('/transactions/send?error=Error creating transaction');
+  }
+
+  revalidatePath('/');
+
+  redirect('/');
 }
