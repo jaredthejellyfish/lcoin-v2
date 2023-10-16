@@ -51,7 +51,7 @@ const PaymentCode = async () => {
       </p>
       <QRGenerator userProfile={userProfile} host={host || ""} />
 
-      <div className="flex flex-col gap-0 mb-4 text-sm border shadow-sm dark:bg-neutral-500/10 border-neutral-200 dark:border-transparent rounded-xl">
+      <div className="mt-3 flex flex-col gap-0 mb-4 text-sm border shadow-sm dark:bg-neutral-500/10 border-neutral-200 dark:border-transparent rounded-xl">
         <div className="flex flex-row">
           <span className="py-2.5 px-3 dark:text-neutral-400 text-neutral-700 w-1/3">
             Name

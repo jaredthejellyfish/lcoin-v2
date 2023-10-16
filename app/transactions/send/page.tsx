@@ -11,6 +11,7 @@ type Props = {
     iban?: string;
     username?: string;
     amount?: string;
+    concept?: string;
   };
 };
 
@@ -50,12 +51,13 @@ const SendPage = (props: Props) => {
             placeholder="username"
           />
         </div>
-        <div className="dark:bg-neutral-600/20 dark:border-transparent border border-neutral-300 flex pb-2 flex-col px-3 py-2.5 rounded-xl mb-3 placeholder:text-red-400">
+        <div className="dark:bg-neutral-600/20 dark:border-transparent border border-neutral-300 flex pb-2 flex-col px-3 py-2.5 rounded-xl mb-5 placeholder:text-red-400">
           <input
             className="bg-transparent outline-none custom-placeholder"
             type="text"
             name="concept"
             placeholder="Concept"
+            defaultValue={props.searchParams.concept || undefined}
           />
         </div>
         <div className="dark:bg-neutral-600/20 dark:border-transparent border border-neutral-300 flex pb-3 flex-col px-3 py-2.5 rounded-xl mb-5">
