@@ -10,6 +10,7 @@
     "dbtypes": "supabase gen types typescript --project-id uthoeaudrvjtdgjwmgun > ./lib/database.ts"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^9.7.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-slot": "^1.0.2",

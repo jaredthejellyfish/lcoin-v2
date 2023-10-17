@@ -8,8 +8,8 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
 import type { UserProfile } from '@/lib/databaseTypes';
-import { UserSchema } from '@/lib/schemas';
 import type { Database } from '@/lib/database';
+import { UserSchema } from '@/lib/schemas';
 
 function isEqual<T extends { [key: string]: unknown }>(
   obj1: T,
@@ -193,4 +193,34 @@ export async function createTransaction(formData: FormData) {
   revalidatePath('/');
 
   redirect('/');
+}
+
+export async function signup(formData: FormData) {
+  const email = (formData.get('email') as string) || null;
+  const password = (formData.get('password') as string) || null;
+
+  // Input validation
+  if (
+    !email ||
+    typeof email !== 'string' ||
+    !password ||
+    typeof password !== 'string'
+  ) {
+    redirect('/auth/login?error=Invalid input');
+  }
+
+  const cookieStore = cookies();
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password,
+  });
+
+  if (!error) {
+    redirect('/profile?login=true');
+  }
+
+  console.error(error);
+  redirect('/auth/login?error=Login failed');
 }

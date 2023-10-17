@@ -17,7 +17,7 @@ export default function AuthForm() {
             theme="dark"
             showLinks={false}
             providers={["google", "github", ]}
-            redirectTo='https://lcoin-iota.vercel.app/auth/callback'
+            redirectTo='https://lcoin-iota.vercel.app/api/auth/callback'
         />
     )
 }

@@ -8,14 +8,30 @@ import { Toaster } from '@/components/ui/toaster';
 import Providers from '@/components/providers';
 import './globals.css';
 
+const APP_NAME = 'LCoin';
+const APP_DESCRIPTION = 'App by Jared Hernandez';
+
 export const metadata: Metadata = {
   title: 'LCoin',
-  description: 'Created by Jared Hernandez.',
-  themeColor: 'black',
+  description: APP_DESCRIPTION,
+  applicationName: APP_NAME,
   appleWebApp: {
-    title: 'LCoin',
-    statusBarStyle: 'black-translucent',
+    capable: true,
+    title: APP_NAME,
+    statusBarStyle: 'default',
   },
+  formatDetection: {
+    telephone: false,
+  },
+  themeColor: '#000000',
+  viewport:
+    'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover',
+  manifest: '/manifest.json',
+  icons: [
+    { rel: 'apple-touch-icon', url: '/icons/apple-touch-icon.png' },
+    { rel: 'shortcut icon', url: '/favicon.ico' },
+  ],
+  keywords: ['lcoin', 'finance', 'nextjs'],
 };
 
 const inter = Inter({ subsets: ['latin'] });

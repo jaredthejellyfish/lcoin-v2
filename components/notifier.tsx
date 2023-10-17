@@ -6,11 +6,13 @@ import { useEffect } from 'react';
 
 import { useToast } from '@/components/ui/use-toast';
 
-type Props = { searchParams: { error?: string; update?: string } };
+type Props = {
+  searchParams: { error?: string; update?: string; login?: string };
+};
 
 const Notifier = (props: Props) => {
   const { toast } = useToast();
-  const { error, update } = props.searchParams;
+  const { error, update, login } = props.searchParams;
 
   useEffect(() => {
     if (error) {
@@ -35,7 +37,16 @@ const Notifier = (props: Props) => {
         description: 'Your profile has been updated.',
       });
     }
-  }, [error, toast, update]);
+
+    if (login) {
+      const newURL = window.location.pathname; // Get the current path without search params
+      window.history.pushState({}, '', newURL);
+
+      toast({
+        description: 'Welcome to LCoin!',
+      });
+    }
+  }, [error, toast, update, login]);
 
   return null;
 };
