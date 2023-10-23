@@ -4,10 +4,11 @@ import { cookies } from 'next/headers';
 import React from 'react';
 
 import TransactionSearch from '@/components/transaction-search';
+import type { ExtendedTransaction } from '@/lib/databaseTypes';
 import Transactions from '@/components/transactions';
 import Navigation from '@/components/navigation';
-import AnimatedTabs from '@/components/tabs';
 import type { Database } from '@/lib/database';
+import AnimatedTabs from '@/components/tabs';
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -23,6 +24,15 @@ export default async function Home() {
         .eq('id', session!.user?.id)
         .single()
     : { data: null, error: true };
+
+  const { data: userTransactions } = userProfile
+    ? await supabase
+        .from('transactions')
+        .select('*')
+        .or(`sender_id.eq.${userProfile.id},receiver_id.eq.${userProfile.id}`)
+        .order('created_at', { ascending: false })
+        .limit(3)
+    : { data: null };
 
   if (!session || !userProfile || error) {
     return (
@@ -64,12 +74,16 @@ export default async function Home() {
             <span className="text-xs text-neutral-500 pr-0.5 pl-1">·</span>
             <span className="text-xs text-neutral-500">Total balance</span>
           </div> */}
-          <Transactions />
+          {userTransactions && userTransactions.length > 0 && (
+            <Transactions
+              userID={userProfile.id}
+              initialTransactions={userTransactions as ExtendedTransaction[]}
+            />
+          )}
         </div>
       </div>
     </main>
   );
 }
 
-
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic';

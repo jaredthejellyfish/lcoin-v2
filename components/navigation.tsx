@@ -1,12 +1,11 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { BellIcon } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import RealtimeTransactions from './realtime-transactions';
 import ModeToggle from '@/components/theme-toggle';
-import { Button } from '@/components/ui/button';
 import type { Database } from '@/lib/database';
 import { getInitials } from '@/lib/utils';
 
@@ -33,7 +32,11 @@ const Navigation = async () => {
       <Link href={'/profile'} className="flex flex-row items-center space-x-2">
         <Avatar className="h-8 w-8 m-1">
           <AvatarImage src={userProfile?.avatar_url || undefined} />
-          <AvatarFallback>{session && !error && userProfile && userProfile.full_name ? getInitials(userProfile?.full_name) : "N/A"}</AvatarFallback>
+          <AvatarFallback>
+            {session && !error && userProfile && userProfile.full_name
+              ? getInitials(userProfile?.full_name)
+              : 'N/A'}
+          </AvatarFallback>
         </Avatar>
         <h3 className="font-semibold">
           {userProfile?.full_name?.split(' ')[0]}
@@ -41,10 +44,7 @@ const Navigation = async () => {
       </Link>
       <div className="flex flex-row items-center ml-auto">
         <ModeToggle />
-        <Button variant="ghost" size="icon">
-          <BellIcon className="h-9 w-9 p-2" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
+        <RealtimeTransactions />
       </div>
     </div>
   );

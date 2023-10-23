@@ -15,7 +15,7 @@ export async function middleware(req: NextRequest) {
     user && (req.nextUrl.pathname === '/auth/login' ||
     req.nextUrl.pathname === '/auth/signup')
   ) {
-    return NextResponse.redirect(new URL('/profile', req.nextUrl));
+    return NextResponse.redirect(new URL('/', req.nextUrl));
   }
 
   if (
@@ -23,7 +23,6 @@ export async function middleware(req: NextRequest) {
     req.nextUrl.pathname !== '/auth/login' &&
     req.nextUrl.pathname !== '/auth/signup'
   ) {
-    console.log(req.nextUrl.pathname)
     return NextResponse.redirect(new URL('/auth/login', req.nextUrl));
   }
 
