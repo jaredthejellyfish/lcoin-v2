@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import ClearSearchParams from '@/components/clear-search-params';
-import { SubmitButton } from '@/components/submit-button';
+import SubmitButton from '@/components/submit-button';
 import { createTransaction } from '@/lib/actions';
 
 type Props = {
@@ -71,9 +71,9 @@ const SendPage = (props: Props) => {
             defaultValue={props.searchParams.amount || undefined}
           />
         </div>
-        <SubmitButton />
+        <SubmitButton text="Send" whilePending='Sending...' />
       </form>
-      <ClearSearchParams searchParams={props.searchParams}/>
+      <ClearSearchParams searchParams={props.searchParams} />
     </main>
   );
 };

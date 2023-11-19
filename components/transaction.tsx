@@ -1,13 +1,14 @@
+import { formatDistanceToNow, parseJSON } from 'date-fns';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
 
 import type { Transaction as TransactionType } from '@/lib/databaseTypes';
-import { formatDistanceToNow, parseJSON } from 'date-fns';
 
 type Props = {
   transaction: TransactionType;
   userID: string;
+  removeDate?: boolean;
 };
 
 const Transaction = (props: Props) => {
@@ -55,11 +56,13 @@ const Transaction = (props: Props) => {
           )}
         </span>
         <span className="text-xs text-neutral-500">
-          {concept} -{' '}
-          {formatDistanceToNow(parseJSON(created_at), {
-            includeSeconds: true,
-            addSuffix: true,
-          })}
+          {concept}{' '}
+          {!props.removeDate &&
+            `- ${formatDistanceToNow(parseJSON(created_at), {
+              includeSeconds: true,
+              addSuffix: true,
+            })}
+          `}
         </span>
       </span>
     </div>

@@ -1,17 +1,17 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { ArrowRightIcon } from 'lucide-react';
 import { cookies } from 'next/headers';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { SubmitButton } from '@/components/submit-button';
+import SubmitButton from '@/components/submit-button';
 import BackButton from '@/components/back-button';
+import type { Database } from '@/lib/database';
 import Notifier from '@/components/notifier';
 import { updateUser } from '@/lib/actions';
-import type { Database } from '@/lib/database';
 import { getInitials } from '@/lib/utils';
-import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'LCoin - Edit profile',
@@ -93,7 +93,7 @@ export default async function AccountEdit(props: Props) {
             defaultValue={userProfile.username || undefined}
           />
         </div>
-        <SubmitButton />
+        <SubmitButton text='Submit' whilePending='Submitting...' />
       </form>
       <Notifier searchParams={props.searchParams} />
     </div>

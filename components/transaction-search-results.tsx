@@ -1,43 +1,76 @@
-import React from "react";
-import { motion } from "framer-motion"
-import { useQuery } from "@tanstack/react-query";
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import React from 'react';
+
+import type { Transaction as TransactionType } from '@/lib/databaseTypes';
+import type { Database } from '@/lib/database';
+import Transaction from './transaction';
 
 type Props = {
-    search: string;
-}
+  search: string;
+};
 
 const fetchSearchResults = async (search: string) => {
-    // return a promise of an array of strings that match the search this is a mock
-    // implementation
+  const supabase = createClientComponentClient<Database>({});
 
-    return new Promise<{ searchResults: string[]; search: string }>((resolve) => {
-        setTimeout(() => {
-            resolve({ search: search, searchResults: ["test", "test2"] });
-        }, 1000);
-    });
-}
+  const { data: session, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError) {
+    console.error(sessionError);
+    throw sessionError;
+  }
+
+  if (!session || !session.session?.user?.id) {
+    throw new Error('No session');
+  }
+
+  const { data: matches, error } = await supabase.rpc(
+    'fuzzy_transaction_search',
+    {
+      match_string: search,
+      search_uid: session.session?.user?.id,
+    },
+  );
+
+  if (error) {
+    console.error(error);
+    throw error;
+  }
+  return { uid: session.session.user.id, matches };
+};
+
 const TransactionSearchResults = (props: Props) => {
+  const { search } = props;
 
-    const { search } = props;
-    
-    const { isLoading, isError, data, error } = useQuery({
-        //@ts-expect-error - I don't know how to fix this
-        queryKey: ["searchResults", search],
-        queryFn: fetchSearchResults,
-        enabled: search.length > 3,
-    });
+  const { isError, data, error } = useQuery({
+    queryKey: ['searchResults', search],
+    queryFn: () => fetchSearchResults(search),
+    enabled: search.length > 1,
+  });
 
-    console.log(data, isLoading, isError, error);
+  if (isError) {
+    console.error(error);
+    return null;
+  }
 
+  return (
+    <motion.div className="w-full bg-neutral-800 px-4 py-3 rounded mt-1.5 mr-3 absolute z-50">
+      <div id="transactions" className="flex flex-col">
+        <div id="transaction-list" className="flex flex-col gap-5">
+          {data &&
+            data.matches.map((transaction: TransactionType) => (
+              <Transaction
+                key={transaction.id}
+                transaction={transaction}
+                userID={data.uid}
+              />
+            ))}
+          {!data || (data.matches && data.matches.length < 1) && <p>No matching transactions...</p>}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
-
-    return (
-        <motion.div className="w-full bg-neutral-900 px-2 py-1 rounded mt-1.5 mr-3 absolute z-50">
-            <span>
-                penis cock enjoyer
-            </span>
-        </motion.div>
-    );
-}
-
-export default TransactionSearchResults
+export default TransactionSearchResults;
