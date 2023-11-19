@@ -8,7 +8,7 @@ import type { ExtendedTransaction } from '@/lib/databaseTypes';
 import Transactions from '@/components/transactions';
 import Navigation from '@/components/navigation';
 import type { Database } from '@/lib/database';
-import AnimatedTabs from '@/components/tabs';
+import SendReceive from '@/components/SendReceive';
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -51,7 +51,6 @@ export default async function Home() {
       <Navigation />
       <div className="px-4 ">
         <TransactionSearch />
-        <AnimatedTabs />
         <div className="w-full mt-3 dark:bg-neutral-500/10 border-neutral-200 dark:border-transparent shadow-sm border rounded-xl p-4">
           <div className="flex flex-row items-end justify-between">
             <span className="flex flex-row">
@@ -69,11 +68,12 @@ export default async function Home() {
             <BadgeEuroIcon className="h-8 w-8 rounded-full p-1.5 bg-lcoin/20 dark:text-lcoin/60 text-lcoin/60" />
           </div>
 
-          {/* <div className="flex flex-row">
+          <div className="flex flex-row">
             <span className="text-xs text-neutral-300">All accounts</span>
             <span className="text-xs text-neutral-500 pr-0.5 pl-1">·</span>
             <span className="text-xs text-neutral-500">Total balance</span>
-          </div> */}
+          </div>
+          <SendReceive />
           {userTransactions && userTransactions.length > 0 && (
             <Transactions
               userID={userProfile.id}

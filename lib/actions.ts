@@ -180,6 +180,10 @@ export async function createTransaction(formData: FormData) {
         receiver_id: receiverUserProfile.id,
         concept,
         amount: validatedAmount,
+        sender_username: senderUserProfile.username,
+        receiver_username: receiverUserProfile.username,
+        sender_avatar_url: senderUserProfile.avatar_url,
+        receiver_avatar_url: receiverUserProfile.avatar_url,
       },
     ]);
 

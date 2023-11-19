@@ -4,10 +4,6 @@ const withPWA = require("@ducanh2912/next-pwa").default({
 });
 
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-    optimizePackageImports: ['lucide-react'],
-  },
   images: {
     remotePatterns: [
       {

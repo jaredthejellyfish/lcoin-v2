@@ -93,17 +93,6 @@ export default async function AccountEdit(props: Props) {
             defaultValue={userProfile.username || undefined}
           />
         </div>
-        <div className="dark:bg-neutral-600/20 dark:border-transparent border border-neutral-300 mb-5 flex pb-3 flex-col px-3 py-2.5 rounded-xl">
-          <label className="text-[0.8em] font-regular text-neutral-500 mb-0.5">
-            Website
-          </label>
-          <input
-            className="bg-transparent outline-none"
-            type="text"
-            name="website"
-            defaultValue={userProfile.website || undefined}
-          />
-        </div>
         <SubmitButton />
       </form>
       <Notifier searchParams={props.searchParams} />
