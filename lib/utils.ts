@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+import md5 from 'md5';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -24,4 +26,22 @@ export function validateIban(iban: string): boolean {
 
   // The pseudo check digits are valid if they equal the sum of the ASCII values modulo 100
   return pseudoCheckDigits === asciiSum % 100;
+}
+
+export function generateGravatarUrl(
+  username?: string | null,
+  size: number = 200,
+): string | undefined {
+  // Assuming you have the user's email associated with the username
+  if (!username) {
+    return undefined;
+  }
+
+  // Calculate the MD5 hash of the email address
+  const hash = md5(username.toLowerCase().trim());
+
+  // Construct the Gravatar URL
+  const gravatarUrl = `https://www.gravatar.com/avatar/${hash}?s=${size}&d=identicon`;
+
+  return gravatarUrl;
 }

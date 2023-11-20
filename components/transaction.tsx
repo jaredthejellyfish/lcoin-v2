@@ -1,9 +1,10 @@
 import { formatDistanceToNow, parseJSON } from 'date-fns';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import React from 'react';
 
 import type { Transaction as TransactionType } from '@/lib/databaseTypes';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { generateGravatarUrl, getInitials } from '@/lib/utils';
 
 type Props = {
   transaction: TransactionType;
@@ -25,21 +26,27 @@ const Transaction = (props: Props) => {
   return (
     <div id="transaction" className="flex flex-row items-center gap-3">
       {props.userID === sender_id ? (
-        <Image
-          src={receiver_avatar_url || 'https://github.com/shadcn.png'}
-          alt="Transaction logo"
-          width={38}
-          height={38}
-          className="rounded-full"
-        />
+        <Avatar className="h-10 w-10">
+          <AvatarImage
+            src={receiver_avatar_url || generateGravatarUrl(receiver_username)}
+          />
+          <AvatarFallback>
+            {!receiver_avatar_url && sender_username
+              ? getInitials(sender_username)
+              : 'N/A'}
+          </AvatarFallback>
+        </Avatar>
       ) : (
-        <Image
-          src={sender_avatar_url || 'https://github.com/shadcn.png'}
-          alt="Transaction logo"
-          width={38}
-          height={38}
-          className="rounded-full"
-        />
+        <Avatar className="h-10 w-10">
+          <AvatarImage
+            src={sender_avatar_url || generateGravatarUrl(sender_username)}
+          />
+          <AvatarFallback>
+            {!sender_avatar_url && receiver_username
+              ? getInitials(receiver_username)
+              : 'N/A'}
+          </AvatarFallback>
+        </Avatar>
       )}
       <span className="flex flex-col w-full">
         <span className="flex flex-row text-sm justify-between w-full">
