@@ -1,6 +1,5 @@
 'use client';
 
-import '@wypratama/react-qr/dist/style.css';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 

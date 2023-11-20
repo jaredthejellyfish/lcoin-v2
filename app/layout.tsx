@@ -1,12 +1,12 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
 import React from 'react';
 
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import Providers from '@/components/providers';
 import './globals.css';
+import { GeistSans } from 'geist/font/sans';
 
 const APP_NAME = 'LCoin';
 const APP_DESCRIPTION = 'App by Jared Hernandez';
@@ -192,8 +192,6 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-const inter = Inter({ subsets: ['latin'] });
-
 export default function RootLayout({
   children,
 }: {
@@ -201,7 +199,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={GeistSans.className}>
         <Providers>
           <ThemeProvider
             attribute="class"
