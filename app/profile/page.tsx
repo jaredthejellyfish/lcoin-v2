@@ -5,10 +5,10 @@ import Link from 'next/link';
 import React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { generateGravatarUrl, getInitials } from '@/lib/utils';
 import TextWithCopy from '@/components/text-with-copy';
 import type { Database } from '@/lib/database';
 import Notifier from '@/components/notifier';
-import { getInitials } from '@/lib/utils';
 
 // or Dynamic metadata
 export async function generateMetadata() {
@@ -37,7 +37,7 @@ export async function generateMetadata() {
 type Props = { searchParams: { error?: string; update?: string } };
 
 export default async function Account(props: Props) {
-  const supabase = createServerComponentClient<Database>({ cookies }); 
+  const supabase = createServerComponentClient<Database>({ cookies });
 
   const {
     data: { session },
@@ -73,7 +73,11 @@ export default async function Account(props: Props) {
         {userProfile.full_name}
       </h1>
       <Avatar className="absolute w-12 h-12 m-1 right-5 top-10">
-        <AvatarImage src={userProfile?.avatar_url || undefined} />
+        <AvatarImage
+          src={
+            userProfile?.avatar_url || generateGravatarUrl(userProfile.username)
+          }
+        />
         <AvatarFallback>
           {session && userProfile && userProfile.full_name
             ? getInitials(userProfile?.full_name)

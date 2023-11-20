@@ -4,10 +4,10 @@ import Link from 'next/link';
 import React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { generateGravatarUrl, getInitials } from '@/lib/utils';
 import RealtimeTransactions from './realtime-transactions';
 import ModeToggle from '@/components/theme-toggle';
 import type { Database } from '@/lib/database';
-import { getInitials } from '@/lib/utils';
 
 const Navigation = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -31,7 +31,12 @@ const Navigation = async () => {
     >
       <Link href={'/profile'} className="flex flex-row items-center space-x-2">
         <Avatar className="h-8 w-8 m-1">
-          <AvatarImage src={userProfile?.avatar_url || undefined} />
+          <AvatarImage
+            src={
+              userProfile?.avatar_url ||
+              generateGravatarUrl(userProfile?.username)
+            }
+          />
           <AvatarFallback>
             {session && !error && userProfile && userProfile.full_name
               ? getInitials(userProfile?.full_name)

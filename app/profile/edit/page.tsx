@@ -6,12 +6,12 @@ import Link from 'next/link';
 import React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { generateGravatarUrl, getInitials } from '@/lib/utils';
 import SubmitButton from '@/components/submit-button';
 import BackButton from '@/components/back-button';
 import type { Database } from '@/lib/database';
 import Notifier from '@/components/notifier';
 import { updateUser } from '@/lib/actions';
-import { getInitials } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'LCoin - Edit profile',
@@ -51,7 +51,11 @@ export default async function AccountEdit(props: Props) {
     <div className="px-3 py-4">
       <BackButton backPath="/profile" title="Edit profile" />
       <Avatar className="absolute w-12 h-12 m-1 right-5 top-10">
-        <AvatarImage src={userProfile?.avatar_url || undefined} />
+        <AvatarImage
+          src={
+            userProfile?.avatar_url || generateGravatarUrl(userProfile.username)
+          }
+        />
         <AvatarFallback>
           {session && userProfile && userProfile.full_name
             ? getInitials(userProfile?.full_name)
@@ -93,7 +97,7 @@ export default async function AccountEdit(props: Props) {
             defaultValue={userProfile.username || undefined}
           />
         </div>
-        <SubmitButton text='Submit' whilePending='Submitting...' />
+        <SubmitButton text="Submit" whilePending="Submitting..." />
       </form>
       <Notifier searchParams={props.searchParams} />
     </div>
